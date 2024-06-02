@@ -1,15 +1,19 @@
 #include <stdio.h>
 
-void matmul_vanilla(float * out, float *matA, float *matB, int M, int N, int K) {
+void matmul_vanilla(float * out, float *matA, float *matB, int M, int K, int N) {
   // shape(matA) = M x K; shape(matB) = K x N; shape(out) = M x N
   for (int i=0; i<M; i++) {
     for (int j=0; j<N; j++) {
-    
+      float sum = 0.0;
+      for (int k=0; k<K; k++) {
+        sum += matA[M*i+k] * matB[N*j+k]; // TODO: bug here!
+      }
+      out[M*i+j] = sum;
     }
   }
 }
 
-void matmul(float *out, float *matA, float *matB, int M, int N, int K) {
+void matmul(float *out, float *matA, float *matB, int M, int K, int N) {
   // shape(matA) = M x K; shape(matB) = K x N; shape(out) = M x N
 }
 
@@ -37,7 +41,7 @@ int main() {
                      0.0, 0.0, 0.0, 0.0,
                      0.0, 0.0, 0.0, 0.0
                    };
-  matmul_vanilla(out, matA, matB, 2, 4, 3);
+  matmul_vanilla(out, matA, matB, 2, 3, 4);
   print_matrix(out, 2, 4);
   return 0;
 }
